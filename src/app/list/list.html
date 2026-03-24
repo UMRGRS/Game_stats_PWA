@@ -1,0 +1,33 @@
+<table>
+    <tr>
+        <td>Name</td>
+        <td>Score</td>
+        <td>Turns</td>
+        <td>Damage Dealt</td>
+        <td>HP Healed</td>
+        <td>Cards Used</td>
+        <td>Energy Used</td>
+    </tr>
+
+    @for (doc of documents; track doc.name) {
+        <tr>
+        <td>{{ doc.name }}</td>
+        <td>{{ doc.total }}</td>
+        <td>{{ doc.turns }}</td>
+        <td>{{ doc.damage }}</td>
+        <td>{{ doc.heal }}</td>
+        <td>{{ doc.cards }}</td>
+        <td>{{ doc.energy }}</td>
+        </tr>
+    } @empty {
+        <tr>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        </tr>
+    }
+</table>
