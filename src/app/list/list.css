@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+tr {
+  border-bottom: 1px solid #eee;
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+
+tr:first-child {
+  background-color: #00ddc0;
+  color: black;
+  font-weight: 600;
+}
+
+tr:hover:not(:first-child) {
+  background-color: #f9f9f9;
+}
+
+td {
+  padding: 12px 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+tr:first-child td {
+  padding: 15px;
+  text-align: center;
+  font-weight: 600;
+}

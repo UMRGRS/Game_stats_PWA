@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+app-searchbar {
+  display: block;
+  margin-bottom: 30px;
+}
+
+app-list {
+  display: block;
+}
+
+h1{
+  text-align: center;
+}
+h2{
+  text-align: center;
+}
