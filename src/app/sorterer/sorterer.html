@@ -1,17 +1,24 @@
-<div class="sorter-container">
+<div class="sorter-container" role="group" aria-label="Opciones de ordenamiento">
   <div class="sorter-group">
-    <label for="sort-select">Sort by:</label>
+    <label for="sort-select" id="sort-label">Sort by:</label>
     <select
       id="sort-select"
       [value]="sortBy"
       (change)="onSortByChange($event)"
+      aria-labelledby="sort-label"
+      aria-describedby="sort-help"
     >
       <option value="score">Score</option>
       <option value="date">Date</option>
     </select>
+    <span id="sort-help" class="sr-only">Selecciona el criterio de ordenamiento de la tabla</span>
   </div>
 
-  <button class="sort-button" (click)="toggleSortOrder()">
-    <img src="assets/sort.png"  alt="sort icon button"/>
+  <button
+    class="sort-button"
+    (click)="toggleSortOrder()"
+    aria-label="Cambiar orden de clasificación (actualmente {{ ascending ? 'ascendente' : 'descendente' }})"
+  >
+    <img src="assets/sort.png" alt="Alternar orden de clasificación"/>
   </button>
 </div>

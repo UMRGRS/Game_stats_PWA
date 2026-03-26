@@ -1,9 +1,11 @@
-<label class="toggle-switch">
+<label class="toggle-switch" aria-label="Cambiar tema de la aplicación">
   <input
     type="checkbox"
     [checked]="isDarkMode"
     (change)="toggleDarkMode($event)"
+    aria-label="Activar modo oscuro"
+    aria-describedby="theme-status"
   />
-  <span class="slider"></span>
-  <span class="label">{{ isDarkMode ? 'Dark' : 'Light' }}</span>
+  <span class="slider" aria-hidden="true"></span>
+  <span class="label" id="theme-status">{{ isDarkMode ? '🌙 Dark' : '☀️ Light' }}</span>
 </label>

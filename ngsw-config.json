@@ -26,5 +26,20 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "firestore-cache",
+      "urls": [
+        "https://firestore.googleapis.com/**",
+        "https://identitytoolkit.googleapis.com/**"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 100,
+        "maxAge": "24h",
+        "timeout": "10s"
+      }
+    }
   ]
 }

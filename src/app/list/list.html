@@ -1,36 +1,54 @@
-<table>
-  <tr>
-    <td>Name</td>
-    <td>Score</td>
-    <td>Turns</td>
-    <td>Damage Dealt</td>
-    <td>HP Healed</td>
-    <td>Cards Used</td>
-    <td>Energy Used</td>
-    <td>Registered on</td>
-  </tr>
+<!-- Status indicator for offline/online mode -->
+@if (isLoading) {
+  <div class="status-message status-loading" role="status" aria-live="polite">
+    <span aria-label="Cargando datos">Cargando datos...</span>
+  </div>
+}
 
-  @for (doc of documents; track doc.name) {
-    <tr>
-      <td>{{ doc.name }}</td>
-      <td>{{ doc.total }}</td>
-      <td>{{ doc.turns }}</td>
-      <td>{{ doc.damage }}</td>
-      <td>{{ doc.heal }}</td>
-      <td>{{ doc.cards }}</td>
-      <td>{{ doc.energy }}</td>
-      <td>{{ doc.formattedDate }} UTC-6</td>
+@if (errorMessage) {
+  <div class="status-message status-error" role="alert" aria-live="assertive">
+    <span aria-label="Mensaje de error">{{ errorMessage }}</span>
+  </div>
+}
+
+@if (!isOnline) {
+  <div class="status-message status-offline" role="status" aria-live="polite">
+    <span aria-label="Modo offline">⚠️ Modo offline - Mostrando datos en caché</span>
+  </div>
+}
+
+<!-- Main table with semantic structure -->
+<table role="table" aria-label="Tabla de estadísticas de juegos">
+  <thead>
+    <tr role="row">
+      <th role="columnheader" scope="col">Name</th>
+      <th role="columnheader" scope="col">Score</th>
+      <th role="columnheader" scope="col">Turns</th>
+      <th role="columnheader" scope="col">Damage Dealt</th>
+      <th role="columnheader" scope="col">HP Healed</th>
+      <th role="columnheader" scope="col">Cards Used</th>
+      <th role="columnheader" scope="col">Energy Used</th>
+      <th role="columnheader" scope="col">Registered on</th>
     </tr>
-  } @empty {
-    <tr>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-      <td>-</td>
-    </tr>
-  }
+  </thead>
+  <tbody>
+    @for (doc of documents; track doc.id) {
+      <tr role="row">
+        <td role="cell">{{ doc.name }}</td>
+        <td role="cell">{{ doc.total }}</td>
+        <td role="cell">{{ doc.turns }}</td>
+        <td role="cell">{{ doc.damage }}</td>
+        <td role="cell">{{ doc.heal }}</td>
+        <td role="cell">{{ doc.cards }}</td>
+        <td role="cell">{{ doc.energy }}</td>
+        <td role="cell">{{ doc.formattedDate }} UTC-6</td>
+      </tr>
+    } @empty {
+      <tr role="row">
+        <td colspan="8" role="cell" aria-label="No hay datos disponibles">
+          No hay datos disponibles
+        </td>
+      </tr>
+    }
+  </tbody>
 </table>

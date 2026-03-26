@@ -4,6 +4,19 @@
   box-sizing: border-box;
 }
 
+/* Accessibility: Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* Light mode (default) */
 :root {
   --bg-primary: #f5f5f5;
@@ -44,3 +57,5 @@ html, body {
   height: 100%;
   width: 100%;
 }
+
+

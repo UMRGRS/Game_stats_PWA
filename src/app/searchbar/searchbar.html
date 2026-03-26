@@ -1,4 +1,13 @@
-<form (ngSubmit)="onSearch()">
-    <input type="text" [(ngModel)]="searchQuery" name="query" placeholder="Player" required>
-    <button type="submit">Search</button>
+<form (ngSubmit)="onSearch()" role="search" aria-label="Buscar jugador">
+    <label for="search-input" class="sr-only">Buscar por nombre de jugador</label>
+    <input
+        id="search-input"
+        type="text"
+        [(ngModel)]="searchQuery"
+        name="query"
+        placeholder="Player"
+        aria-label="Nombre de jugador"
+        aria-describedby="search-help"
+        required>
+    <button type="submit" aria-label="Ejecutar búsqueda">Search</button>
 </form>

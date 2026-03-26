@@ -1,7 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, OnDestroy } from '@angular/core';
 import { Firestore, collection, getDocs } from '@angular/fire/firestore';
 import { Timestamp } from '@angular/fire/firestore';
 import { SearchService } from '../search.service';
+import { StorageService } from '../storage.service';
+import { NetworkService } from '../network.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export interface SortConfig {
   sortBy: 'score' | 'date';
@@ -14,31 +18,102 @@ export interface SortConfig {
   templateUrl: './list.html',
   styleUrl: './list.css',
 })
-export class List implements OnInit {
+export class List implements OnInit, OnDestroy {
   private firestore = inject(Firestore);
   private searchService = inject(SearchService);
+  private storageService = inject(StorageService);
+  private networkService = inject(NetworkService);
+  private destroy$ = new Subject<void>();
 
   documents: any[] = [];
   allDocuments: any[] = [];
   currentSort: SortConfig = { sortBy: 'score', ascending: false };
+  isOnline: boolean = true;
+  isLoading: boolean = true;
+  errorMessage: string = '';
 
   async ngOnInit() {
-    const snapshot = await getDocs(collection(this.firestore, 'scores'));
+    this.isOnline = this.networkService.getIsOnline();
 
-    this.allDocuments = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-      formattedDate: this.formatTimestamp(doc.data()['date']),
-      dateValue: this.getDateValue(doc.data()['date'])
-    }));
+    // Cargar datos iniciales
+    await this.loadDocuments();
 
-    this.documents = this.allDocuments;
-    this.applySorting();
+    // Suscribirse a cambios de conexión de red
+    this.networkService.isOnline$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(async (isOnline: boolean) => {
+      this.isOnline = isOnline;
+      if (isOnline) {
+        // Sincronizar datos cuando se recupera la conexión
+        console.log('Conexión restaurada, sincronizando datos...');
+        await this.loadDocuments();
+        this.networkService.syncCompleted();
+      }
+    });
 
     // Subscribe to search term changes
-    this.searchService.searchTerm$.subscribe((searchTerm: string) => {
+    this.searchService.searchTerm$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((searchTerm: string) => {
       this.filterDocuments(searchTerm);
     });
+  }
+
+  /**
+   * Carga documentos desde API, con fallback a IndexedDB en caso de error
+   */
+  private async loadDocuments(): Promise<void> {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    try {
+      // Intentar cargar desde Firestore
+      const snapshot = await getDocs(collection(this.firestore, 'scores'));
+
+      this.allDocuments = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        formattedDate: this.formatTimestamp(doc.data()['date']),
+        dateValue: this.getDateValue(doc.data()['date'])
+      }));
+
+      // Guardar en IndexedDB para offline
+      await this.storageService.saveDocuments(this.allDocuments);
+      this.documents = this.allDocuments;
+      this.applySorting();
+      this.isLoading = false;
+
+    } catch (error: any) {
+      console.error('Error cargando desde Firestore:', error);
+
+      // Fallback: cargar desde IndexedDB
+      try {
+        const cachedDocuments = await this.storageService.getDocuments();
+
+        if (cachedDocuments.length > 0) {
+          this.allDocuments = cachedDocuments;
+          this.documents = this.allDocuments;
+          this.applySorting();
+          this.errorMessage = 'Datos mostrados desde caché (sin conexión)';
+          this.isLoading = false;
+        } else {
+          // Sin datos en caché
+          this.errorMessage = 'No se pudieron cargar los datos. Sin conexión a internet y sin caché disponible.';
+          this.documents = [];
+          this.allDocuments = [];
+          this.isLoading = false;
+        }
+      } catch (cacheError) {
+        console.error('Error cargando desde caché:', cacheError);
+        this.errorMessage = 'Error al cargar datos. Por favor, recarga la página.';
+        this.isLoading = false;
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   filterDocuments(searchTerm: string): void {

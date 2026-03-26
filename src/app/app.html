@@ -1,7 +1,19 @@
-<app-dark-switch></app-dark-switch>
-<h1>Untitled Card Game</h1>
-<h2>Leaderboard</h2>
+<header role="banner">
+  <div class="header-top">
+    <h1>Untitled Card Game</h1>
+    <app-dark-switch></app-dark-switch>
+  </div>
+</header>
 
-<app-searchbar></app-searchbar>
-<app-sorterer (sortChange)="onSortChange($event)"></app-sorterer>
-<app-list></app-list>
+<main role="main">
+  <section aria-labelledby="leaderboard-heading">
+    <h2 id="leaderboard-heading">Leaderboard</h2>
+
+    <nav aria-label="Controles de tabla" class="table-controls">
+      <app-searchbar></app-searchbar>
+      <app-sorterer (sortChange)="onSortChange($event)"></app-sorterer>
+    </nav>
+
+    <app-list></app-list>
+  </section>
+</main>
