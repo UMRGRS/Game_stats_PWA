@@ -1,0 +1,9 @@
+<label class="toggle-switch">
+  <input
+    type="checkbox"
+    [checked]="isDarkMode"
+    (change)="toggleDarkMode($event)"
+  />
+  <span class="slider"></span>
+  <span class="label">{{ isDarkMode ? 'Dark' : 'Light' }}</span>
+</label>

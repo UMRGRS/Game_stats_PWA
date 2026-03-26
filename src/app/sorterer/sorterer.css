@@ -1,37 +1,50 @@
-:host {
-  display: block;
-}
-
-form {
+.sorter-container {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
   background-color: var(--table-bg);
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 4px var(--box-shadow);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
 }
 
-input[type="text"] {
-  flex: 1;
-  padding: 10px 12px;
+.sorter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+label {
+  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+select {
+  padding: 8px 12px;
   border: 1px solid var(--table-border);
   border-radius: 4px;
-  font-size: 14px;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-input[type="text"]:focus {
+select:focus {
   outline: none;
   border-color: var(--table-header-bg);
-  box-shadow: 0 0 4px rgba(0, 221, 192, 0.3);
 }
 
-button {
-  padding: 10px 20px;
+select option {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.sort-button {
+  padding: 8px 16px;
   background-color: var(--table-header-bg);
   color: var(--table-header-text);
   border: none;
@@ -40,12 +53,20 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  white-space: nowrap;
 }
 
-button:hover {
+.sort-button:hover {
   background-color: #009970;
 }
 
-button:active {
+.sort-button:active {
   background-color: #007d5f;
 }
+
+.sort-button img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+

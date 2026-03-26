@@ -5,6 +5,12 @@
   margin: 0 auto;
 }
 
+app-dark-switch {
+  display: block;
+  margin-bottom: 20px;
+  text-align: right;
+}
+
 app-searchbar {
   display: block;
   margin-bottom: 30px;
@@ -16,7 +22,9 @@ app-list {
 
 h1{
   text-align: center;
+  color: var(--text-primary);
 }
 h2{
   text-align: center;
+  color: var(--text-primary);
 }

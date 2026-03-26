@@ -5,14 +5,16 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
+  background-color: var(--table-bg);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--box-shadow);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 tr {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--table-border);
+  transition: background-color 0.3s ease;
 }
 
 tr:last-child {
@@ -20,19 +22,21 @@ tr:last-child {
 }
 
 tr:first-child {
-  background-color: #00ddc0;
-  color: black;
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
   font-weight: 600;
 }
 
 tr:hover:not(:first-child) {
-  background-color: #f9f9f9;
+  background-color: var(--table-hover-bg);
 }
 
 td {
   padding: 12px 15px;
   text-align: center;
   font-size: 14px;
+  color: var(--text-primary);
+  transition: color 0.3s ease;
 }
 
 tr:first-child td {

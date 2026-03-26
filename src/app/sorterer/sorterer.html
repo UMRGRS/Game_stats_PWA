@@ -1,0 +1,17 @@
+<div class="sorter-container">
+  <div class="sorter-group">
+    <label for="sort-select">Sort by:</label>
+    <select
+      id="sort-select"
+      [value]="sortBy"
+      (change)="onSortByChange($event)"
+    >
+      <option value="score">Score</option>
+      <option value="date">Date</option>
+    </select>
+  </div>
+
+  <button class="sort-button" (click)="toggleSortOrder()">
+    <img src="assets/sort.png"  alt="sort icon button"/>
+  </button>
+</div>
